@@ -7,12 +7,6 @@ using Skyline.DataMiner.Scripting;
 
 public static class ParameterDiscreetValues
 {
-	public enum ViewPageControl
-	{
-		Show = 1,
-		Hide = 2
-	}
-
 	public enum LockedValues
 	{
 		Locked = 1,
@@ -35,23 +29,18 @@ public class QAction
 		{
 			switch (triggerParameter)
 			{
-				case Parameter.Write.matrix_101:
-				case 66:    // DiscreetInfo
 				case Parameter.Write.routercontroloutputsvirtualsets_1160:
 				case Parameter.Write.routercontroloutputsserializedsets_1161:
 					_matrixStorage.GetMatrix(protocol).ProcessParameterSetFromUI(protocol, triggerParameter);
 					break;
-				case Parameter.Routersysleveloutputs.tablePid:	// table 1200
+				case Parameter.Routersysleveloutputs.tablePid:  // table 1200
 					ProcessOutputData(protocol);
 					break;
-				case Parameter.Routersyslevelinputs.tablePid:	// table 1300
+				case Parameter.Routersyslevelinputs.tablePid:   // table 1300
 					ProcessInputData(protocol);
 					break;
 				case Parameter.routersysleveltakenextwritebufferitem_1404:
 					TakeNextWriteBufferItem(protocol);
-					break;
-				case Parameter.matrixsettings_displaytype_124:
-					ChangeDisplayType(protocol);
 					break;
 				default:
 					return; // Not supported trigger parameter.
@@ -105,72 +94,6 @@ public class QAction
 			protocol.Log("QA" + protocol.QActionID + "|Unknown output locked value: " + Convert.ToString(lockType) + " for " + (isInput ? "input " : "output ") + Convert.ToString(index + 1), LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
-	}
-
-	private static MatrixDisplayType SetForMatrix(SLProtocol protocol, bool isDisplayedMatrix, bool isDisplayedTables)
-	{
-		if (!isDisplayedMatrix && isDisplayedTables)
-		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Show, (int)ParameterDiscreetValues.ViewPageControl.Hide });
-		}
-		else if (!isDisplayedMatrix)
-		{
-			protocol.SetParameter(Parameter.matrixviewpagecontrol_5, (int)ParameterDiscreetValues.ViewPageControl.Show);
-		}
-		else if (isDisplayedTables)
-		{
-			protocol.SetParameter(Parameter.tableviewpagecontrol_6, (int)ParameterDiscreetValues.ViewPageControl.Hide);
-		}
-		else
-		{
-			// Do nothing
-		}
-
-		return MatrixDisplayType.Matrix;
-	}
-
-	private static MatrixDisplayType SetForTables(SLProtocol protocol, bool isDisplayedMatrix, bool isDisplayedTables)
-	{
-		if (isDisplayedMatrix && !isDisplayedTables)
-		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Hide, (int)ParameterDiscreetValues.ViewPageControl.Show });
-		}
-		else if (isDisplayedMatrix)
-		{
-			protocol.SetParameter(Parameter.matrixviewpagecontrol_5, (int)ParameterDiscreetValues.ViewPageControl.Hide);
-		}
-		else if (!isDisplayedTables)
-		{
-			protocol.SetParameter(Parameter.tableviewpagecontrol_6, (int)ParameterDiscreetValues.ViewPageControl.Show);
-		}
-		else
-		{
-			// Do nothing
-		}
-
-		return MatrixDisplayType.Tables;
-	}
-
-	private static MatrixDisplayType SetForMatrixAndTables(SLProtocol protocol, bool isDisplayedMatrix, bool isDisplayedTables)
-	{
-		if (!isDisplayedMatrix && !isDisplayedTables)
-		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Show, (int)ParameterDiscreetValues.ViewPageControl.Show });
-		}
-		else if (!isDisplayedMatrix)
-		{
-			protocol.SetParameter(Parameter.matrixviewpagecontrol_5, (int)ParameterDiscreetValues.ViewPageControl.Show);
-		}
-		else if (!isDisplayedTables)
-		{
-			protocol.SetParameter(Parameter.tableviewpagecontrol_6, (int)ParameterDiscreetValues.ViewPageControl.Show);
-		}
-		else
-		{
-			// Do nothing
-		}
-
-		return MatrixDisplayType.MatrixAndTables;
 	}
 
 	private static bool CheckValidColumns(object[] columns)
@@ -258,7 +181,7 @@ public class QAction
 			object[] indexCol = (object[])tableCols[0];
 			object[] inputName = (object[])tableCols[1];
 			object[] inputLocked = (object[])tableCols[2];
-			Matrix matrix = SetupRouter(protocol);
+			Matrix matrix = _matrixStorage.GetMatrix(protocol);
 			int maximumFoundInputs = 0;
 			for (int i = 0; i < indexCol.Length; i++)
 			{
@@ -305,7 +228,7 @@ public class QAction
 			object[] outputName = (object[])tableCols[1];
 			object[] outputLocked = (object[])tableCols[2];
 			object[] connectedInputCol = (object[])tableCols[3];
-			Matrix matrix = SetupRouter(protocol);
+			Matrix matrix = _matrixStorage.GetMatrix(protocol);
 			int maximumFoundOutputs = 0;
 			for (int i = 0; i < indexCol.Length; i++)
 			{
@@ -339,12 +262,6 @@ public class QAction
 		{
 			protocol.Log("QA" + protocol.QActionID + "|Exception when processing output table " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
 		}
-	}
-
-	private void ChangeDisplayType(SLProtocol protocol)
-	{
-		Matrix matrix = SetupRouter(protocol);
-		matrix.ApplyChanges(protocol);
 	}
 
 	private void TakeNextWriteBufferItem(SLProtocol protocol)
@@ -402,30 +319,6 @@ public class QAction
 		{
 			protocol.Log("QA" + protocol.QActionID + "|Exception when processing buffer write " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
 		}
-	}
-
-	private Matrix SetupRouter(SLProtocol protocol)
-	{
-		object[] parameters = (object[])protocol.GetParameters(new uint[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6, Parameter.matrixsettings_displaytype_124 });
-		bool isDisplayedMatrix = Convert.ToInt32(parameters[0]) == (int)ParameterDiscreetValues.ViewPageControl.Show;
-		bool isDisplayedTables = Convert.ToInt32(parameters[1]) == (int)ParameterDiscreetValues.ViewPageControl.Show;
-		MatrixDisplayType displayType;
-		switch (Convert.ToString(parameters[2]))
-		{
-			case "1":
-				displayType = SetForMatrix(protocol, isDisplayedMatrix, isDisplayedTables);
-				break;
-			case "2":
-				displayType = SetForTables(protocol, isDisplayedMatrix, isDisplayedTables);
-				break;
-			default:
-				displayType = SetForMatrixAndTables(protocol, isDisplayedMatrix, isDisplayedTables);
-				break;
-		}
-
-		Matrix matrix = _matrixStorage.GetMatrix(protocol);
-		matrix.DisplayType = displayType;
-		return matrix;
 	}
 
 	private void ProcessPolledBufferItem(SLProtocol protocol, object oid, object polledValue)
@@ -527,7 +420,7 @@ public sealed class MatrixStorage
 	{
 		if (matrix == null)
 		{
-			matrix = new Matrix(protocol, 66);  // Involves usage of DiscreetInfo parameter 66, MatrixConnectionsBuffer 4, Matrix 100, RouterControlInputs 1000, RouterControlOutputs 1100
+			matrix = new Matrix(protocol);  // Involves usage of Dummy parameter ID: 10,  MatrixConnectionsBuffer 4, RouterControlInputs 1000, RouterControlOutputs 1100
 		}
 		else
 		{
@@ -538,12 +431,12 @@ public sealed class MatrixStorage
 	}
 }
 
-public sealed class Matrix : MatrixHelperForMatrixAndTables
+public sealed class Matrix : TableMatrixHelper
 {
 	private readonly string busNumber;
 	private SLProtocol protocol;
 
-	public Matrix(SLProtocol protocol, int discreetInfoParameterId) : base(protocol, discreetInfoParameterId)
+	public Matrix(SLProtocol protocol) : base(protocol, 10, 640, 640)
 	{
 		this.protocol = protocol;
 		busNumber = Convert.ToString(protocol.GetParameter(1)) + ".";

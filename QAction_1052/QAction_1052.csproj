@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9F837416-5252-4BE4-BB88-59518A37AF99}</ProjectGuid>
+    <ProjectGuid>{2BE3E318-7C37-4B45-8538-AB103860E3BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QAction_1052</RootNamespace>
@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Skyline.DataMiner.Core.Matrix.Protocol">
-      <Version>1.0.0.1</Version>
+      <Version>1.0.0-10.3.1.1.1.0.X.7</Version>
     </PackageReference>
     <PackageReference Include="Skyline.DataMiner.Dev.Protocol">
       <Version>10.0.0.5</Version>

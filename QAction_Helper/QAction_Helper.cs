@@ -13,31 +13,11 @@ public static class Parameter
 	public const int matrixconnectionsbuffer_4 = 4;
 	/// <summary>PID: 4 | Type: read</summary>
 	public const int matrixconnectionsbuffer = 4;
-	/// <summary>PID: 5 | Type: read</summary>
+	/// <summary>PID: 1071 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public const int matrixviewpagecontrol_5 = 5;
-	/// <summary>PID: 5 | Type: read</summary>
-	public const int matrixviewpagecontrol = 5;
-	/// <summary>PID: 6 | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public const int tableviewpagecontrol_6 = 6;
-	/// <summary>PID: 6 | Type: read</summary>
-	public const int tableviewpagecontrol = 6;
-	/// <summary>PID: 99 | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public const int matrixcolumntype_99 = 99;
-	/// <summary>PID: 99 | Type: read</summary>
-	public const int matrixcolumntype = 99;
-	/// <summary>PID: 105 | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public const int matrixserialized_105 = 105;
-	/// <summary>PID: 105 | Type: read</summary>
-	public const int matrixserialized = 105;
-	/// <summary>PID: 124 | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public const int matrixsettings_displaytype_124 = 124;
-	/// <summary>PID: 124 | Type: read</summary>
-	public const int matrixsettings_displaytype = 124;
+	public const int matrixserialized_1071 = 1071;
+	/// <summary>PID: 1071 | Type: read</summary>
+	public const int matrixserialized = 1071;
 	/// <summary>PID: 1400 | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public const int routersyslevelwritebuffer_1400 = 1400;
@@ -60,16 +40,6 @@ public static class Parameter
 	public const int routersysleveltakenextwritebufferitem = 1404;
 	public class Write
 	{
-		/// <summary>PID: 101 | Type: write</summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int matrix_101 = 101;
-		/// <summary>PID: 101 | Type: write</summary>
-		public const int matrix = 101;
-		/// <summary>PID: 125 | Type: write</summary>
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public const int matrixsettings_displaytype_125 = 125;
-		/// <summary>PID: 125 | Type: write</summary>
-		public const int matrixsettings_displaytype = 125;
 		/// <summary>PID: 1052 | Type: write</summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public const int routercontrolinputslabel_1052 = 1052;
@@ -135,22 +105,6 @@ public static class Parameter
 		public const int routersyslevelwritevalueinteger_1405 = 1405;
 		/// <summary>PID: 1405 | Type: write</summary>
 		public const int routersyslevelwritevalueinteger = 1405;
-	}
-	public class Matrix
-	{
-		/// <summary>PID: 100</summary>
-		public const int tablePid = 100;
-		/// <summary>IDX: 0</summary>
-		public const int indexColumn = 0;
-		public class Pid
-		{
-			public class Write
-			{
-			}
-		}
-		public class Idx
-		{
-		}
 	}
 	public class Routercontrolinputs
 	{
@@ -407,10 +361,6 @@ public static class Parameter
 }
 public class WriteParameters
 {
-	/// <summary>PID: 101  | Type: write</summary>
-	public System.Object Matrix {get { return Protocol.GetParameter(101); }set { Protocol.SetParameter(101, value); }}
-	/// <summary>PID: 125  | Type: write | DISCREETS: Matrix = 1, Tables = 2, Matrix and Tables = 3</summary>
-	public System.Object Matrixsettings_displaytype {get { return Protocol.GetParameter(125); }set { Protocol.SetParameter(125, value); }}
 	/// <summary>PID: 1052  | Type: write</summary>
 	public System.Object Routercontrolinputslabel {get { return Protocol.GetParameter(1052); }set { Protocol.SetParameter(1052, value); }}
 	/// <summary>PID: 1053  | Type: write | DISCREETS: Disabled = 0, Enabled = 1</summary>
@@ -445,8 +395,6 @@ public class WriteParameters
 }
 public interface SLProtocolExt : SLProtocol
 {
-	/// <summary>PID: 100</summary>
-	MatrixQActionTable matrix { get; set; }
 	/// <summary>PID: 1000</summary>
 	RoutercontrolinputsQActionTable routercontrolinputs { get; set; }
 	/// <summary>PID: 1100</summary>
@@ -458,20 +406,7 @@ public interface SLProtocolExt : SLProtocol
 	object Bus_bus { get; set; }
 	object Matrixconnectionsbuffer_4 { get; set; }
 	object Matrixconnectionsbuffer { get; set; }
-	object Matrixviewpagecontrol_5 { get; set; }
-	object Matrixviewpagecontrol { get; set; }
-	object Tableviewpagecontrol_6 { get; set; }
-	object Tableviewpagecontrol { get; set; }
-	object Discreetinfo_discreetinfo { get; set; }
-	object Matrixcolumntype_99 { get; set; }
-	object Matrixcolumntype { get; set; }
-	object Matrix_101 { get; set; }
-	object Matrix { get; set; }
-	object Matrixserialized_105 { get; set; }
-	object Matrixserialized { get; set; }
-	object Matrixsettings_displaytype_124 { get; set; }
-	object Matrixsettings_displaytype { get; set; }
-	object Matrixsettings_displaytype_125 { get; set; }
+	object Matrixcomponent_matrix { get; set; }
 	object Routercontrolinputsnumber_1001 { get; set; }
 	object Routercontrolinputsnumber { get; set; }
 	object Routercontrolinputslabel_1002 { get; set; }
@@ -486,6 +421,8 @@ public interface SLProtocolExt : SLProtocol
 	object Routercontrolinputsisenabled_1053 { get; set; }
 	object Routercontrolinputsislocked_1054 { get; set; }
 	object Routercontrolinputsnotes_1055 { get; set; }
+	object Matrixserialized_1071 { get; set; }
+	object Matrixserialized { get; set; }
 	object Routercontroloutputsnumber_1101 { get; set; }
 	object Routercontroloutputsnumber { get; set; }
 	object Routercontroloutputslabel_1102 { get; set; }
@@ -537,8 +474,6 @@ public interface SLProtocolExt : SLProtocol
 }
 public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 {
-	/// <summary>PID: 100</summary>
-	public MatrixQActionTable matrix { get; set; }
 	/// <summary>PID: 1000</summary>
 	public RoutercontrolinputsQActionTable routercontrolinputs { get; set; }
 	/// <summary>PID: 1100</summary>
@@ -554,40 +489,8 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public System.Object Matrixconnectionsbuffer_4 {get { return GetParameter(4); }set { SetParameter(4, value); }}
 	/// <summary>PID: 4  | Type: read</summary>
 	public System.Object Matrixconnectionsbuffer {get { return GetParameter(4); }set { SetParameter(4, value); }}
-	/// <summary>PID: 5  | Type: read | DISCREETS: Show = 1, Hide = 2</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Matrixviewpagecontrol_5 {get { return GetParameter(5); }set { SetParameter(5, value); }}
-	/// <summary>PID: 5  | Type: read | DISCREETS: Show = 1, Hide = 2</summary>
-	public System.Object Matrixviewpagecontrol {get { return GetParameter(5); }set { SetParameter(5, value); }}
-	/// <summary>PID: 6  | Type: read | DISCREETS: Show = 1, Hide = 2</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Tableviewpagecontrol_6 {get { return GetParameter(6); }set { SetParameter(6, value); }}
-	/// <summary>PID: 6  | Type: read | DISCREETS: Show = 1, Hide = 2</summary>
-	public System.Object Tableviewpagecontrol {get { return GetParameter(6); }set { SetParameter(6, value); }}
-	/// <summary>PID: 66  | Type: discreet info</summary>
-	public System.Object Discreetinfo_discreetinfo {get { return GetParameter(66); }set { SetParameter(66, value); }}
-	/// <summary>PID: 99  | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Matrixcolumntype_99 {get { return GetParameter(99); }set { SetParameter(99, value); }}
-	/// <summary>PID: 99  | Type: read</summary>
-	public System.Object Matrixcolumntype {get { return GetParameter(99); }set { SetParameter(99, value); }}
-	/// <summary>PID: 101  | Type: write</summary>
-	public System.Object Matrix_101 {get { return GetParameter(101); }set { SetParameter(101, value); }}
-	/// <summary>PID: 101  | Type: write</summary>
-	public System.Object Matrix {get { return Write.Matrix; }set { Write.Matrix = value; }}
-	/// <summary>PID: 105  | Type: read</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Matrixserialized_105 {get { return GetParameter(105); }set { SetParameter(105, value); }}
-	/// <summary>PID: 105  | Type: read</summary>
-	public System.Object Matrixserialized {get { return GetParameter(105); }set { SetParameter(105, value); }}
-	/// <summary>PID: 124  | Type: read | DISCREETS: Matrix = 1, Tables = 2, Matrix and Tables = 3</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Matrixsettings_displaytype_124 {get { return GetParameter(124); }set { SetParameter(124, value); }}
-	/// <summary>PID: 124  | Type: read | DISCREETS: Matrix = 1, Tables = 2, Matrix and Tables = 3</summary>
-	public System.Object Matrixsettings_displaytype {get { return GetParameter(124); }set { SetParameter(124, value); }}
-	/// <summary>PID: 125  | Type: write | DISCREETS: Matrix = 1, Tables = 2, Matrix and Tables = 3</summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
-	public System.Object Matrixsettings_displaytype_125 {get { return GetParameter(125); }set { SetParameter(125, value); }}
+	/// <summary>PID: 10  | Type: matrix</summary>
+	public System.Object Matrixcomponent_matrix {get { return GetParameter(10); }set { SetParameter(10, value); }}
 	/// <summary>PID: 1001  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Routercontrolinputsnumber_1001 {get { return GetParameter(1001); }set { SetParameter(1001, value); }}
@@ -625,6 +528,11 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	/// <summary>PID: 1055  | Type: write</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Routercontrolinputsnotes_1055 {get { return GetParameter(1055); }set { SetParameter(1055, value); }}
+	/// <summary>PID: 1071  | Type: read</summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public System.Object Matrixserialized_1071 {get { return GetParameter(1071); }set { SetParameter(1071, value); }}
+	/// <summary>PID: 1071  | Type: read</summary>
+	public System.Object Matrixserialized {get { return GetParameter(1071); }set { SetParameter(1071, value); }}
 	/// <summary>PID: 1101  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Routercontroloutputsnumber_1101 {get { return GetParameter(1101); }set { SetParameter(1101, value); }}
@@ -744,20 +652,12 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public WriteParameters Write { get; set; }
 	public ConcreteSLProtocolExt()
 	{
-		matrix = new MatrixQActionTable(this, 100, "matrix");
 		routercontrolinputs = new RoutercontrolinputsQActionTable(this, 1000, "routercontrolinputs");
 		routercontroloutputs = new RoutercontroloutputsQActionTable(this, 1100, "routercontroloutputs");
 		routersysleveloutputs = new RoutersysleveloutputsQActionTable(this, 1200, "routersysleveloutputs");
 		routersyslevelinputs = new RoutersyslevelinputsQActionTable(this, 1300, "routersyslevelinputs");
 		Write = new WriteParameters(this);
 	}
-}
-/// <summary>IDX: 0</summary>
-public class MatrixQActionTable : QActionTable, IEnumerable<MatrixQActionRow>
-{
-	public MatrixQActionTable(SLProtocol protocol, int tableId, string tableName) : base(protocol, tableId, tableName) { }
-	IEnumerator IEnumerable.GetEnumerator() { return (IEnumerator) GetEnumerator(); }
-	public IEnumerator<MatrixQActionRow> GetEnumerator() { return new QActionTableEnumerator<MatrixQActionRow>(this); }
 }
 /// <summary>IDX: 0</summary>
 public class RoutercontrolinputsQActionTable : QActionTable, IEnumerable<RoutercontrolinputsQActionRow>
@@ -786,14 +686,6 @@ public class RoutersyslevelinputsQActionTable : QActionTable, IEnumerable<Router
 	public RoutersyslevelinputsQActionTable(SLProtocol protocol, int tableId, string tableName) : base(protocol, tableId, tableName) { }
 	IEnumerator IEnumerable.GetEnumerator() { return (IEnumerator) GetEnumerator(); }
 	public IEnumerator<RoutersyslevelinputsQActionRow> GetEnumerator() { return new QActionTableEnumerator<RoutersyslevelinputsQActionRow>(this); }
-}
-/// <summary>IDX: 0</summary>
-public class MatrixQActionRow : QActionTableRow
-{
-	public MatrixQActionRow() : base(0, 0) { }
-	public MatrixQActionRow(System.Object[] oRow) : base(0, 0, oRow) { }
-	public static implicit operator MatrixQActionRow(System.Object[] source) { return new MatrixQActionRow(source); }
-	public static implicit operator System.Object[](MatrixQActionRow source) { return source.ToObjectArray(); }
 }
 /// <summary>IDX: 0</summary>
 public class RoutercontrolinputsQActionRow : QActionTableRow
