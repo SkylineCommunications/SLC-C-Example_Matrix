@@ -1140,7 +1140,7 @@ Simulation file can be found at the device simulations location under the Skylin
 						<MajorVersions>
 							<MajorVersion id="0">
 								<MinorVersions>
-									<MinorVersion id="1" basedOn="1.0.0.4">
+									<MinorVersion id="1" basedOn="">
 										<Date>2023-01-24</Date>
 										<Provider>
 											<Author>JST</Author>
