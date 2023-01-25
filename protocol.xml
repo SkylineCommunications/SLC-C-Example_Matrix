@@ -58,7 +58,7 @@ Simulation file can be found at the device simulations location under the Skylin
 	<Description>Example that is using the Matrix Helper Class with dynamic Table Matrix</Description>
 	<Version>2.0.0.1</Version>
 	<Provider>Skyline Communications</Provider>
-	<Vendor>Skyline Example</Vendor>
+	<Vendor>Skyline Communications</Vendor>
 	<VendorOID>1.3.6.1.4.1.8813.2.48</VendorOID>
 	<DeviceOID>999</DeviceOID>
 	<IntegrationID>DMS-DRV-XX</IntegrationID>
