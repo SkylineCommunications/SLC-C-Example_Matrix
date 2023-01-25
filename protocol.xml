@@ -58,7 +58,7 @@ Simulation file can be found at the device simulations location under the Skylin
 	<Description>Example that is using the Matrix Helper Class with matrix and table parameters</Description>
 	<Version>1.0.0.1</Version>
 	<Provider>Skyline Communications</Provider>
-	<Vendor>Skyline Example</Vendor>
+	<Vendor>Skyline Communications</Vendor>
 	<VendorOID>1.3.6.1.4.1.8813.2.48</VendorOID>
 	<DeviceOID>999</DeviceOID>
 	<IntegrationID>DMS-DRV-XX</IntegrationID>
@@ -93,7 +93,7 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Param>
 		<Param id="4" trending="false">
 			<Name>MatrixConnectionsBuffer</Name>
-			<Description>BufferParam</Description>
+			<Description>Buffer Param</Description>
 			<Information>
 				<Subtext>This single parameter contains all crosspoint values. This can be used with an external virtual driver that combines different elements into on big router control.</Subtext>
 			</Information>
@@ -113,7 +113,7 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Param>
 		<Param id="5" save="true" trending="false">
 			<Name>MatrixViewPageControl</Name>
-			<Description>MatrixViewPageControl</Description>
+			<Description>Matrix View Page Control</Description>
 			<Information>
 				<Subtext>This parameter controls if the Matrix View is displayed or not.</Subtext>
 			</Information>
@@ -143,7 +143,7 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Param>
 		<Param id="6" save="true" trending="false">
 			<Name>TableViewPageControl</Name>
-			<Description>TableViewPageControl</Description>
+			<Description>Table View Page Control</Description>
 			<Information>
 				<Subtext>This parameter controls if the Table View is displayed or not.</Subtext>
 			</Information>
@@ -5379,7 +5379,7 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Param>
 		<Param id="105" trending="false">
 			<Name>MatrixSerialized</Name>
-			<Description>SerializedParam</Description>
+			<Description>Serialized Param</Description>
 			<Type>read</Type>
 			<Information>
 				<Subtext>This single parameter contains all matrix information in JSON format. This can be used with an external virtual driver that combines different elements into one big router control.</Subtext>
