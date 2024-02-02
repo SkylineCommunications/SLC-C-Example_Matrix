@@ -79,7 +79,6 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Pages>
 	</Display>
 	<!-- /SuppressValidator 1.22.6 -->
-	<ElementType>Matrix</ElementType>
 	<Params>
 		<Param id="1" trending="false">
 			<Name>bus</Name>
