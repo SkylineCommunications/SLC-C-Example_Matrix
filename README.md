@@ -11,8 +11,8 @@ To execute the simulation, utilize the simulator tool available in the folder `C
 To quickly run the simulation, open a command prompt or PowerShell from the root of your solution and execute the following commands. If DataMiner is installed, the command can be run directly. Otherwise, modify the command to point to the downloaded tool's *.exe*:
 
 ```cmd
-copy /Y "Simulation\Connection_0.xml" "C:\QASNMPSimulations\SLC-C-Example_Matrix.xml"
-start /min "" "C:\Skyline DataMiner\Tools\QADeviceSimulator\QADeviceSimulator.exe" "SLC-C-Example_Matrix.xml"
+copy /Y "Simulation\Connection_0.xml" "C:\QASNMPSimulations\SLC-C-Example_Matrix_1.0.0.X.xml"
+start /min "" "C:\Skyline DataMiner\Tools\QADeviceSimulator\QADeviceSimulator.exe" "SLC-C-Example_Matrix_1.0.0.X.xml"
 ```
 
 For more detailed instructions on running the simulation or resolving potential issues, refer to the comprehensive documentation available at [docs.dataminer.services](https://docs.dataminer.services/user-guide/Reference/DataMiner_Tools/QADeviceSimulator/TOOQASNMPSimulator.html).
