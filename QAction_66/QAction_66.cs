@@ -10,13 +10,13 @@ public static class ParameterDiscreetValues
 	public enum ViewPageControl
 	{
 		Show = 1,
-		Hide = 2
+		Hide = 2,
 	}
 
 	public enum LockedValues
 	{
 		Locked = 1,
-		Unlocked = 2
+		Unlocked = 2,
 	}
 }
 
@@ -41,10 +41,10 @@ public class QAction
 				case Parameter.Write.routercontroloutputsserializedsets_1161:
 					_matrixStorage.GetMatrix(protocol).ProcessParameterSetFromUI(protocol, triggerParameter);
 					break;
-				case Parameter.Routersysleveloutputs.tablePid:	// table 1200
+				case Parameter.Routersysleveloutputs.tablePid:  // table 1200
 					ProcessOutputData(protocol);
 					break;
-				case Parameter.Routersyslevelinputs.tablePid:	// table 1300
+				case Parameter.Routersyslevelinputs.tablePid:   // table 1300
 					ProcessInputData(protocol);
 					break;
 				case Parameter.routersysleveltakenextwritebufferitem_1404:
@@ -59,7 +59,7 @@ public class QAction
 		}
 		catch (Exception ex)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|" + Convert.ToString(triggerParameter) + "|Run|Exception " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|{Convert.ToString(triggerParameter)}|Run|Exception {Convert.ToString(ex)}", LogType.Error, LogLevel.NoLogging);
 		}
 	}
 
@@ -67,13 +67,13 @@ public class QAction
 	{
 		if (!Int32.TryParse(Convert.ToString(connectedInput), out input))
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Output index: " + Convert.ToString(output + 1) + " is connected to an input that can't be converted to a number: " + Convert.ToString(connectedInput), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Output index: {Convert.ToString(output + 1)} is connected to an input that can't be converted to a number: {Convert.ToString(connectedInput)}", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
 		if (input < 0 && input > displayedInputs)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Output index: " + Convert.ToString(output + 1) + " is connected to an input that is out of range: " + Convert.ToString(connectedInput) + " maximum known input is " + Convert.ToString(displayedInputs), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Output index: {Convert.ToString(output + 1)} is connected to an input that is out of range: {Convert.ToString(connectedInput)} maximum known input is {Convert.ToString(displayedInputs)}", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
@@ -87,7 +87,7 @@ public class QAction
 		int lockType;
 		if (!Int32.TryParse(Convert.ToString(lockedValue), out lockType))
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Provided locked value " + Convert.ToString(lockedValue) + " can't be converted to a number for " + (isInput ? "input " : "output ") + Convert.ToString(index + 1), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Provided locked value {Convert.ToString(lockedValue)} can't be converted to a number for {(isInput ? "input " : "output ")}{Convert.ToString(index + 1)}", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
