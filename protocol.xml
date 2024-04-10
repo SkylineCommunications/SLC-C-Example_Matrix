@@ -1096,7 +1096,7 @@ Simulation file can be found at the device simulations location under the Skylin
 	<VersionHistory>
 		<Branches>
 			<Branch id="1">
-				<Comment>Main branch</Comment>
+				<Comment>Using classic Matrix Control</Comment>
 				<SystemVersions>
 					<SystemVersion id="0">
 						<MajorVersions>
@@ -1139,13 +1139,13 @@ Simulation file can be found at the device simulations location under the Skylin
 				</SystemVersions>
 			</Branch>
 			<Branch id="2">
-				<Comment />
+				<Comment>Using Matrix Control based on tables.</Comment>
 				<SystemVersions>
 					<SystemVersion id="0">
 						<MajorVersions>
 							<MajorVersion id="0">
 								<MinorVersions>
-									<MinorVersion id="1" basedOn="">
+									<MinorVersion id="1">
 										<Date>2023-01-24</Date>
 										<Provider>
 											<Author>JST</Author>
