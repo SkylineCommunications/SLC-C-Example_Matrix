@@ -38,18 +38,10 @@ Any inquiries can be addressed to:
 	Belgium
 	Tel.	: +32 51 31 35 69
 	Fax.	: +32 51 31 01 29
-	E-mail	: info@skyline.be 
+	E-mail	: info@skyline.be
 	Web		: www.skyline.be
 	Contact	: Ben Vandenberghe
 
-****************************************************************************
-Revision History:
-
-DATE		VERSION		AUTHOR			COMMENTS
-
-****************************************************************************
-
-Revision history is located under the VersionHistory tag
 Simulation file can be found at the device simulations location under the Skyline Communications vendor
 
 -->
@@ -65,7 +57,8 @@ Simulation file can be found at the device simulations location under the Skylin
 	<ElementType>Example</ElementType>
 	<SNMP includepages="true">auto</SNMP>
 	<Type relativeTimers="true">snmpv2</Type>
-	<!-- SuppressValidator 1.22.6 no webpage -->
+	
+	<!-- SuppressValidator 1.22.6 no webPage -->
 	<Display defaultPage="General" pageOrder="General;Matrix View;Table View" wideColumnPages="Matrix View;Table View">
 		<Pages>
 			<Page>
@@ -79,6 +72,12 @@ Simulation file can be found at the device simulations location under the Skylin
 		</Pages>
 	</Display>
 	<!-- /SuppressValidator 1.22.6 -->
+
+	<Compliancies>
+		<CassandraReady>true</CassandraReady>
+		<MinimumRequiredVersion>10.2.0.0 - 11517</MinimumRequiredVersion>
+	</Compliancies>
+	
 	<Params>
 		<Param id="1" trending="false">
 			<Name>bus</Name>
@@ -6239,12 +6238,11 @@ Simulation file can be found at the device simulations location under the Skylin
 
 	<QActions>
 		<QAction id="66" name="Matrix Modifications" encoding="csharp" triggers="66;101;1160;1161;1200;1300;1404;124">
-			
 		</QAction>
 		<QAction id="1052" name="Writes on Router Control Tables" encoding="csharp" triggers="1052;1053;1054;1152;1153;1154;1156" row="true">
-			
 		</QAction>
 	</QActions>
+	
 	<Triggers>
 		<Trigger id="1402">
 			<Name>RouterSysLevelWriteValue Parameter Change</Name>
@@ -6274,6 +6272,7 @@ Simulation file can be found at the device simulations location under the Skylin
 			</Content>
 		</Trigger>
 	</Triggers>
+	
 	<Actions>
 		<Action id="1403">
 			<Name>Execute Read Group After Write</Name>
@@ -6286,6 +6285,7 @@ Simulation file can be found at the device simulations location under the Skylin
 			<Type>run actions</Type>
 		</Action>
 	</Actions>
+	
 	<Groups>
 		<Group id="1">
 			<Name>Get all Inputs</Name>
@@ -6312,6 +6312,7 @@ Simulation file can be found at the device simulations location under the Skylin
 			</Content>
 		</Group>
 	</Groups>
+	
 	<Timers>
 		<Timer id="1">
 			<Name>1 minute timer</Name>
@@ -6323,6 +6324,7 @@ Simulation file can be found at the device simulations location under the Skylin
 			</Content>
 		</Timer>
 	</Timers>
+	
 	<PortSettings name="SNMP Connection">
 		<BusAddress>
 			<DefaultValue>1</DefaultValue>
@@ -6331,16 +6333,17 @@ Simulation file can be found at the device simulations location under the Skylin
 			<DefaultValue>8990</DefaultValue>
 		</IPport>
 	</PortSettings>
+	
 	<VersionHistory>
 		<Branches>
 			<Branch id="1">
-				<Comment>Main branch</Comment>
+				<Comment>Using classic Matrix Control</Comment>
 				<SystemVersions>
 					<SystemVersion id="0">
 						<MajorVersions>
 							<MajorVersion id="0">
 								<MinorVersions>
-									<MinorVersion id="1" basedOn="1.0.0.3">
+									<MinorVersion id="1">
 										<Date>2023-01-23</Date>
 										<Provider>
 											<Author>JST</Author>
@@ -6361,7 +6364,5 @@ Simulation file can be found at the device simulations location under the Skylin
 			</Branch>
 		</Branches>
 	</VersionHistory>
-	<Compliancies>
-		<MinimumRequiredVersion>10.0.10.0 - 9454</MinimumRequiredVersion>
-	</Compliancies>
+	
 </Protocol>
