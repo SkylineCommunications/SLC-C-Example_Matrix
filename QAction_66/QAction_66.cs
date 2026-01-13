@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Skyline.DataMiner.Core.Matrix.Protocol;
 using Skyline.DataMiner.Scripting;
+using Skyline.DataMiner.Utils.Protocol.Extension;
 
 public static class ParameterDiscreetValues
 {
@@ -30,16 +30,16 @@ public class QAction
 	/// <param name="protocol">Link with Skyline DataMiner.</param>
 	public void Run(SLProtocol protocol)
 	{
-		int triggerParameter = protocol.GetTriggerParameter();
+		int triggerPid = protocol.GetTriggerParameter();
 		try
 		{
-			switch (triggerParameter)
+			switch (triggerPid)
 			{
 				case Parameter.Write.matrix_101:
 				case 66:    // DiscreetInfo
 				case Parameter.Write.routercontroloutputsvirtualsets_1160:
 				case Parameter.Write.routercontroloutputsserializedsets_1161:
-					_matrixStorage.GetMatrix(protocol).ProcessParameterSetFromUI(protocol, triggerParameter);
+					_matrixStorage.GetMatrix(protocol).ProcessParameterSetFromUI(protocol, triggerPid);
 					break;
 				case Parameter.Routersysleveloutputs.tablePid:  // table 1200
 					ProcessOutputData(protocol);
@@ -59,7 +59,7 @@ public class QAction
 		}
 		catch (Exception ex)
 		{
-			protocol.Log($"QA{protocol.QActionID}|{Convert.ToString(triggerParameter)}|Run|Exception {Convert.ToString(ex)}", LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|{protocol.GetTriggerParameter()}|Run|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 		}
 	}
 
@@ -67,13 +67,13 @@ public class QAction
 	{
 		if (!Int32.TryParse(Convert.ToString(connectedInput), out input))
 		{
-			protocol.Log($"QA{protocol.QActionID}|Output index: {Convert.ToString(output + 1)} is connected to an input that can't be converted to a number: {Convert.ToString(connectedInput)}", LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Output index '{output + 1}' is connected to an input that can't be converted to a number '{connectedInput}'", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
 		if (input < 0 && input > displayedInputs)
 		{
-			protocol.Log($"QA{protocol.QActionID}|Output index: {Convert.ToString(output + 1)} is connected to an input that is out of range: {Convert.ToString(connectedInput)} maximum known input is {Convert.ToString(displayedInputs)}", LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Output index '{output + 1}' is connected to an input that is out of range '{connectedInput}' maximum known input is '{displayedInputs}'", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
@@ -87,7 +87,7 @@ public class QAction
 		int lockType;
 		if (!Int32.TryParse(Convert.ToString(lockedValue), out lockType))
 		{
-			protocol.Log($"QA{protocol.QActionID}|Provided locked value {Convert.ToString(lockedValue)} can't be converted to a number for {(isInput ? "input " : "output ")}{Convert.ToString(index + 1)}", LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Provided locked value '{lockedValue}' can't be converted to a number for '{(isInput ? "input " : "output ")}{index + 1}", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
@@ -102,7 +102,7 @@ public class QAction
 		}
 		else
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Unknown output locked value: " + Convert.ToString(lockType) + " for " + (isInput ? "input " : "output ") + Convert.ToString(index + 1), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Unknown output locked value '{lockType}' for '{(isInput ? "input " : "output ")}{index + 1}'", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 	}
@@ -111,7 +111,13 @@ public class QAction
 	{
 		if (!isDisplayedMatrix && isDisplayedTables)
 		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Show, (int)ParameterDiscreetValues.ViewPageControl.Hide });
+			var paramsToSet = new Dictionary<int, object>
+			{
+				[Parameter.matrixviewpagecontrol_5] = (int)ParameterDiscreetValues.ViewPageControl.Show,
+				[Parameter.tableviewpagecontrol_6] = (int)ParameterDiscreetValues.ViewPageControl.Hide,
+			};
+
+			protocol.SetParameters(paramsToSet);
 		}
 		else if (!isDisplayedMatrix)
 		{
@@ -133,7 +139,13 @@ public class QAction
 	{
 		if (isDisplayedMatrix && !isDisplayedTables)
 		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Hide, (int)ParameterDiscreetValues.ViewPageControl.Show });
+			var paramsToSet = new Dictionary<int, object>
+			{
+				[Parameter.matrixviewpagecontrol_5] = (int)ParameterDiscreetValues.ViewPageControl.Hide,
+				[Parameter.tableviewpagecontrol_6] = (int)ParameterDiscreetValues.ViewPageControl.Show,
+			};
+
+			protocol.SetParameters(paramsToSet);
 		}
 		else if (isDisplayedMatrix)
 		{
@@ -155,7 +167,13 @@ public class QAction
 	{
 		if (!isDisplayedMatrix && !isDisplayedTables)
 		{
-			protocol.SetParameters(new[] { Parameter.matrixviewpagecontrol_5, Parameter.tableviewpagecontrol_6 }, new object[] { (int)ParameterDiscreetValues.ViewPageControl.Show, (int)ParameterDiscreetValues.ViewPageControl.Show });
+			var paramsToSet = new Dictionary<int, object>
+			{
+				[Parameter.matrixviewpagecontrol_5] = (int)ParameterDiscreetValues.ViewPageControl.Show,
+				[Parameter.tableviewpagecontrol_6] = (int)ParameterDiscreetValues.ViewPageControl.Show,
+			};
+
+			protocol.SetParameters(paramsToSet);
 		}
 		else if (!isDisplayedMatrix)
 		{
@@ -173,41 +191,6 @@ public class QAction
 		return MatrixDisplayType.MatrixAndTables;
 	}
 
-	private static bool CheckValidColumns(object[] columns)
-	{
-		for (int i = 0; i < columns.Length; i++)
-		{
-			if (columns[i] == null)
-			{
-				return false;
-			}
-
-			if (i == 0)
-			{
-				continue;
-			}
-
-			object[] previousCol = (object[])columns[i - 1];
-			object[] currentCol = (object[])columns[i];
-			if (previousCol.Length != currentCol.Length)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	private static bool CheckValidTable(object[] columns, int expectedSize)
-	{
-		if (columns == null || columns.Length < expectedSize)
-		{
-			return false;
-		}
-
-		return CheckValidColumns(columns);
-	}
-
 	private static bool ValidateInstance(SLProtocol protocol, int maxAllowed, object instance, string busNumber, bool isInput, ref int maximumFoundItems, out int index)
 	{
 		index = -1;
@@ -221,13 +204,13 @@ public class QAction
 		instanceValue = instanceValue.Replace(busNumber, String.Empty);
 		if (!Int32.TryParse(instanceValue, out index))
 		{
-			protocol.Log("QA" + protocol.QActionID + "|PK column of the " + type + " table can't be converted to a number. Index: " + instanceValue, LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|PK column of the '{type}' table can't be converted to a number. Index '{instanceValue}'", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
 		if (index <= 0 || index > maxAllowed)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|" + type + "index: " + Convert.ToString(index) + " is out of range, maximum value is " + Convert.ToString(maxAllowed), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|{type}index '{index}' is out of range, maximum value is '{maxAllowed}'", LogType.Error, LogLevel.NoLogging);
 			return false;
 		}
 
@@ -244,32 +227,29 @@ public class QAction
 	{
 		try
 		{
-			uint[] idx = new uint[3];
-			idx[0] = Parameter.Routersyslevelinputs.Idx.routersyslevelinputsinstance_1301;
-			idx[1] = Parameter.Routersyslevelinputs.Idx.routersyslevelinputsname_1302;
-			idx[2] = Parameter.Routersyslevelinputs.Idx.routersyslevelinputslocked_1303;
-			object[] tableCols = (object[])protocol.NotifyProtocol((int)Skyline.DataMiner.Net.Messages.NotifyType.NT_GET_TABLE_COLUMNS, Parameter.Routersyslevelinputs.tablePid, idx);    // table 1300, notify 321
-			if (!CheckValidTable(tableCols, idx.Length))
+			var idx = new uint[]
 			{
-				protocol.Log("QA" + protocol.QActionID + "|The columns of input table are null or don't have an equal size", LogType.Error, LogLevel.NoLogging);
-				return;
-			}
+				Parameter.Routersyslevelinputs.Idx.routersyslevelinputsinstance_1301,
+				Parameter.Routersyslevelinputs.Idx.routersyslevelinputsname_1302,
+				Parameter.Routersyslevelinputs.Idx.routersyslevelinputslocked_1303,
+			};
+			object[] inputColumns = protocol.GetColumns(Parameter.Routersyslevelinputs.tablePid, idx);
+			object[] inputIndexes = (object[])inputColumns[0];
+			object[] inputNames = (object[])inputColumns[1];
+			object[] inputLocked = (object[])inputColumns[2];
 
-			object[] indexCol = (object[])tableCols[0];
-			object[] inputName = (object[])tableCols[1];
-			object[] inputLocked = (object[])tableCols[2];
 			Matrix matrix = SetupRouter(protocol);
+
 			int maximumFoundInputs = 0;
-			for (int i = 0; i < indexCol.Length; i++)
+			for (int i = 0; i < inputIndexes.Length; i++)
 			{
-				int index;
-				bool isLocked;
-				if (!ValidateInstance(protocol, matrix.MaxInputs, indexCol[i], matrix.BusNumber, true, ref maximumFoundInputs, out index) || !TryGetLock(protocol, inputLocked[i], index, true, out isLocked))
+				if (!ValidateInstance(protocol, matrix.MaxInputs, inputIndexes[i], matrix.BusNumber, true, ref maximumFoundInputs, out int index)
+					|| !TryGetLock(protocol, inputLocked[i], index, true, out bool isLocked))
 				{
 					continue;
 				}
 
-				matrix.Inputs[index].Label = Convert.ToString(inputName[i]);
+				matrix.Inputs[index].Label = Convert.ToString(inputNames[i]);
 				matrix.Inputs[index].IsLocked = isLocked;
 			}
 
@@ -281,7 +261,7 @@ public class QAction
 		}
 		catch (Exception ex)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Exception when processing input table " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Exception when processing input table:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 		}
 	}
 
@@ -289,30 +269,27 @@ public class QAction
 	{
 		try
 		{
-			uint[] idx = new uint[4];
-			idx[0] = Parameter.Routersysleveloutputs.Idx.routersysleveloutputsinstance_1201;
-			idx[1] = Parameter.Routersysleveloutputs.Idx.routersysleveloutputsname_1202;
-			idx[2] = Parameter.Routersysleveloutputs.Idx.routersysleveloutputslocked_1203;
-			idx[3] = Parameter.Routersysleveloutputs.Idx.routersysleveloutputsinputstatus_1204;
-			object[] tableCols = (object[])protocol.NotifyProtocol((int)Skyline.DataMiner.Net.Messages.NotifyType.NT_GET_TABLE_COLUMNS, Parameter.Routersysleveloutputs.tablePid, idx);    // table 1200, notify 321
-			if (!CheckValidTable(tableCols, idx.Length))
+			var idx = new uint[]
 			{
-				protocol.Log("QA" + protocol.QActionID + "|The columns of output table are null or don't have an equal size", LogType.Error, LogLevel.NoLogging);
-				return;
-			}
-
+				Parameter.Routersysleveloutputs.Idx.routersysleveloutputsinstance_1201,
+				Parameter.Routersysleveloutputs.Idx.routersysleveloutputsname_1202,
+				Parameter.Routersysleveloutputs.Idx.routersysleveloutputslocked_1203,
+				Parameter.Routersysleveloutputs.Idx.routersysleveloutputsinputstatus_1204,
+			};
+			object[] tableCols = protocol.GetColumns(Parameter.Routersysleveloutputs.tablePid, idx);
 			object[] indexCol = (object[])tableCols[0];
 			object[] outputName = (object[])tableCols[1];
 			object[] outputLocked = (object[])tableCols[2];
 			object[] connectedInputCol = (object[])tableCols[3];
+
 			Matrix matrix = SetupRouter(protocol);
+
 			int maximumFoundOutputs = 0;
 			for (int i = 0; i < indexCol.Length; i++)
 			{
-				int output;
-				int connectedInput;
-				bool isLocked;
-				if (!ValidateInstance(protocol, matrix.MaxOutputs, indexCol[i], matrix.BusNumber, false, ref maximumFoundOutputs, out output) || !TryGetLock(protocol, outputLocked[i], output, false, out isLocked) || !TryGetConnectedInput(protocol, matrix.DisplayedInputs, connectedInputCol[i], output, out connectedInput))
+				if (!ValidateInstance(protocol, matrix.MaxOutputs, indexCol[i], matrix.BusNumber, false, ref maximumFoundOutputs, out int output)
+					|| !TryGetLock(protocol, outputLocked[i], output, false, out bool isLocked)
+					|| !TryGetConnectedInput(protocol, matrix.DisplayedInputs, connectedInputCol[i], output, out int connectedInput))
 				{
 					continue;
 				}
@@ -337,7 +314,7 @@ public class QAction
 		}
 		catch (Exception ex)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Exception when processing output table " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Exception when processing output table:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 		}
 	}
 
@@ -367,7 +344,7 @@ public class QAction
 			pos = nextValue.IndexOf(",");
 			if (pos == -1)
 			{
-				protocol.Log("QA" + protocol.QActionID + "|Error when processing buffer write, cannot find ',', buffer content is " + currentBuffer, LogType.Error, LogLevel.NoLogging);
+				protocol.Log($"QA{protocol.QActionID}|Error when processing buffer write, cannot find ',', buffer content is {currentBuffer}", LogType.Error, LogLevel.NoLogging);
 				protocol.SetParameter(Parameter.routersyslevelwritebuffer_1400, String.Empty);
 				return;
 			}
@@ -377,30 +354,33 @@ public class QAction
 			pos = nextValue.IndexOf(",");
 			if (pos == -1)
 			{
-				protocol.Log("QA" + protocol.QActionID + "|Error when processing buffer write, cannot find second ',', buffer content is " + currentBuffer, LogType.Error, LogLevel.NoLogging);
+				protocol.Log($"QA{protocol.QActionID}|Error when processing buffer write, cannot find second ',', buffer content is {currentBuffer}", LogType.Error, LogLevel.NoLogging);
 				protocol.SetParameter(Parameter.routersyslevelwritebuffer_1400, String.Empty);
 				return;
 			}
 
 			bool isInteger = nextValue.Substring(0, pos) == "1";
 			string setValue = nextValue.Substring(pos + 1);
-			Dictionary<int, object> setParameter = new Dictionary<int, object>();
-			setParameter[Parameter.routersyslevelwritebuffer_1400] = currentBuffer;
-			setParameter[Parameter.routersyslevelwriteoid_1401] = oidValue;
+			var paramsToSet = new Dictionary<int, object>
+			{
+				[Parameter.routersyslevelwritebuffer_1400] = currentBuffer,
+				[Parameter.routersyslevelwriteoid_1401] = oidValue,
+			};
+
 			if (isInteger)
 			{
-				setParameter[Parameter.Write.routersyslevelwritevalueinteger_1405] = setValue;
+				paramsToSet[Parameter.Write.routersyslevelwritevalueinteger_1405] = setValue;
 			}
 			else
 			{
-				setParameter[Parameter.Write.routersyslevelwritevalue_1402] = setValue;
+				paramsToSet[Parameter.Write.routersyslevelwritevalue_1402] = setValue;
 			}
 
-			protocol.SetParameters(setParameter.Keys.ToArray(), setParameter.Values.ToArray());
+			protocol.SetParameters(paramsToSet);
 		}
 		catch (Exception ex)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Exception when processing buffer write " + Convert.ToString(ex), LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Exception when processing buffer write:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
 		}
 	}
 
@@ -434,7 +414,7 @@ public class QAction
 		int pos = oidValue.LastIndexOf(".");
 		if (pos == -1)
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Error when processing buffer write, cannot determine instance from OID, value is " + oidValue, LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Error when processing buffer write, cannot determine instance from OID, value is '{oidValue}'", LogType.Error, LogLevel.NoLogging);
 			return;
 		}
 
@@ -444,7 +424,7 @@ public class QAction
 		pos = oidValue.LastIndexOf(".");
 		if (pos == -1 || !Int32.TryParse(instance, out portNumber))
 		{
-			protocol.Log("QA" + protocol.QActionID + "|Error when processing buffer write, cannot convert instance from OID or determine bus, value is " + oidValue, LogType.Error, LogLevel.NoLogging);
+			protocol.Log($"QA{protocol.QActionID}|Error when processing buffer write, cannot convert instance from OID or determine bus, value is '{oidValue}'", LogType.Error, LogLevel.NoLogging);
 			return;
 		}
 
@@ -497,7 +477,7 @@ public class QAction
 				break;
 
 			default:
-				protocol.Log("QA" + protocol.QActionID + "|Unknown OID value from write " + oidValue, LogType.Error, LogLevel.NoLogging);
+				protocol.Log($"QA{protocol.QActionID}|Unknown OID value from write '{oidValue}'", LogType.Error, LogLevel.NoLogging);
 				break;
 		}
 
@@ -511,161 +491,5 @@ public class QAction
 		public const string OutputConnectedInput = "29.1.5.";
 		public const string OutputLabel = "29.1.3.";
 		public const string OutputLock = "29.1.4.";
-	}
-}
-
-public sealed class MatrixStorage
-{
-	private Matrix matrix;
-
-	/// <summary>
-	/// Gets the Matrix object. Calls the constructor if needed and makes sure the SLProtocol object is up-to-date.
-	/// </summary>
-	/// <param name="protocol">Link with Skyline DataMiner.</param>
-	/// <returns>Matrix object.</returns>
-	public Matrix GetMatrix(SLProtocol protocol)
-	{
-		if (matrix == null)
-		{
-			matrix = new Matrix(protocol, 66);  // Involves usage of DiscreetInfo parameter 66, MatrixConnectionsBuffer 4, Matrix 100, RouterControlInputs 1000, RouterControlOutputs 1100
-		}
-		else
-		{
-			matrix.SetProtocol(protocol);
-		}
-
-		return matrix;
-	}
-}
-
-public sealed class Matrix : MatrixHelperForMatrixAndTables
-{
-	private readonly string busNumber;
-	private SLProtocol protocol;
-
-	public Matrix(SLProtocol protocol, int discreetInfoParameterId) : base(protocol, discreetInfoParameterId)
-	{
-		this.protocol = protocol;
-		busNumber = Convert.ToString(protocol.GetParameter(1)) + ".";
-		if (busNumber == ".")
-		{
-			throw new InvalidOperationException("The bus number is empty, no polled data is going to match. Please make sure the Device address is filled in, edit the element SNMP settings if needed.");
-		}
-	}
-
-	public string BusNumber
-	{
-		get
-		{
-			return busNumber;
-		}
-	}
-
-	/// <summary>
-	/// Setting the SLProtocol object. This object will be needed in the SetFromUI methods to be able to send the set to the device and needs to be the same object as in the QAction entry point.
-	/// </summary>
-	/// <param name="protocol">Link with Skyline DataMiner.</param>
-	public void SetProtocol(SLProtocol protocol)
-	{
-		this.protocol = protocol;
-	}
-
-	/// <summary>
-	/// Gets triggered when crosspoint connections are changed.
-	/// </summary>
-	/// <param name="set">Information about the updated cross-points.</param>
-	protected override void OnCrossPointsSetFromUI(MatrixCrossPointsSetFromUIMessage set)
-	{
-		HashSet<int> disconnectedOutputs = new HashSet<int>();
-		HashSet<int> connectedOutputs = new HashSet<int>();
-		foreach (var crossPointSet in set.CrossPointSets)
-		{
-			if (crossPointSet.State == MatrixCrossPointConnectionState.Connected)
-			{
-				disconnectedOutputs.Remove(crossPointSet.Output);
-				connectedOutputs.Add(crossPointSet.Output);
-				AddToBuffer(protocol, QAction.OidValues.OutputConnectedInput + busNumber + Convert.ToString(crossPointSet.Output + 1), Convert.ToString(crossPointSet.Input + 1), true);
-			}
-			else
-			{
-				if (!connectedOutputs.Contains(crossPointSet.Output))
-				{
-					disconnectedOutputs.Add(crossPointSet.Output);
-				}
-			}
-		}
-
-		foreach (int disconnectedOutput in disconnectedOutputs)
-		{
-			AddToBuffer(protocol, QAction.OidValues.OutputConnectedInput + busNumber + Convert.ToString(disconnectedOutput + 1), "0", true);
-		}
-	}
-
-	/// <summary>
-	/// Gets triggered when the label of an input or output is changed.
-	/// </summary>
-	/// <param name="set">Information about the changed label.</param>
-	protected override void OnLabelSetFromUI(MatrixLabelSetFromUIMessage set)
-	{
-		string oid = set.Type == MatrixIOType.Input ? QAction.OidValues.InputLabel : QAction.OidValues.OutputLabel;
-		AddToBuffer(protocol, oid + busNumber + Convert.ToString(set.Index + 1), set.Label, false);
-	}
-
-	/// <summary>
-	/// Gets triggered when an input or output is locked or unlocked.
-	/// </summary>
-	/// <param name="set">Information about the changed lock.</param>
-	protected override void OnLockSetFromUI(MatrixLockSetFromUIMessage set)
-	{
-		string oid = set.Type == MatrixIOType.Input ? QAction.OidValues.InputLock : QAction.OidValues.OutputLock;
-		AddToBuffer(protocol, oid + busNumber + Convert.ToString(set.Index + 1), Convert.ToString(set.IsLocked ? (int)ParameterDiscreetValues.LockedValues.Locked : (int)ParameterDiscreetValues.LockedValues.Unlocked), true);
-	}
-
-	/// <summary>
-	/// Gets triggered when an input or output is enabled or disabled.
-	/// </summary>
-	/// <param name="set">Information about the changed state.</param>
-	protected override void OnStateSetFromUI(MatrixIOStateSetFromUIMessage set)
-	{
-		if (set.Type == MatrixIOType.Input)
-		{
-			Inputs[set.Index].IsEnabled = set.IsEnabled;
-		}
-		else if (set.Type == MatrixIOType.Output)
-		{
-			Outputs[set.Index].IsEnabled = set.IsEnabled;
-		}
-		else
-		{
-			// Do nothing
-		}
-
-		ApplyChanges(protocol);
-	}
-
-	private static void AddToBuffer(SLProtocol protocol, string oid, string setValue, bool isInteger)
-	{
-		string currentBuffer = Convert.ToString(protocol.GetParameter(Parameter.routersyslevelwritebuffer_1400));
-		string setBuffer = oid + "," + (isInteger ? "1" : "0") + "," + setValue;
-		if (String.IsNullOrEmpty(currentBuffer))
-		{
-			Dictionary<int, object> setParameter = new Dictionary<int, object>();
-			setParameter[Parameter.routersyslevelwritebuffer_1400] = setBuffer;
-			setParameter[Parameter.routersyslevelwriteoid_1401] = oid;
-			if (isInteger)
-			{
-				setParameter[Parameter.Write.routersyslevelwritevalueinteger_1405] = setValue;
-			}
-			else
-			{
-				setParameter[Parameter.Write.routersyslevelwritevalue_1402] = setValue;
-			}
-
-			protocol.SetParameters(setParameter.Keys.ToArray(), setParameter.Values.ToArray());
-		}
-		else
-		{
-			protocol.SetParameter(Parameter.routersyslevelwritebuffer_1400, currentBuffer + ";" + setBuffer);
-		}
 	}
 }

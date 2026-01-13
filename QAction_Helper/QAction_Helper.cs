@@ -456,6 +456,7 @@ public interface SLProtocolExt : SLProtocol
 	/// <summary>PID: 1300</summary>
 	RoutersyslevelinputsQActionTable routersyslevelinputs { get; set; }
 	object Bus_bus { get; set; }
+	object Afterstartup_dummy { get; set; }
 	object Matrixconnectionsbuffer_4 { get; set; }
 	object Matrixconnectionsbuffer { get; set; }
 	object Matrixviewpagecontrol_5 { get; set; }
@@ -549,6 +550,8 @@ public class ConcreteSLProtocolExt : ConcreteSLProtocol, SLProtocolExt
 	public RoutersyslevelinputsQActionTable routersyslevelinputs { get; set; }
 	/// <summary>PID: 1  | Type: bus</summary>
 	public System.Object Bus_bus {get { return GetParameter(1); }set { SetParameter(1, value); }}
+	/// <summary>PID: 2  | Type: dummy</summary>
+	public System.Object Afterstartup_dummy {get { return GetParameter(2); }set { SetParameter(2, value); }}
 	/// <summary>PID: 4  | Type: read</summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public System.Object Matrixconnectionsbuffer_4 {get { return GetParameter(4); }set { SetParameter(4, value); }}

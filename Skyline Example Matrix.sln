@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{9734C6D3-A09F-4B5D-A866-7074E6695218}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\.editorconfig = Internal\.editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QActions", "QActions", "{A811D624-63FF-4E61-A9EB-20076A70D83D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dlls", "Dlls", "{FBB39ED0-209C-412B-8AB3-D549EFECF931}"
+	ProjectSection(SolutionItems) = preProject
+		Dlls\ABOUT.md = Dlls\ABOUT.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultTemplates", "DefaultTemplates", "{F2683535-3B81-4454-9E99-120E5016BBCE}"
+	ProjectSection(SolutionItems) = preProject
+		DefaultTemplates\ABOUT.md = DefaultTemplates\ABOUT.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{23633CE1-7591-4800-8B92-5AD22D130780}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\ABOUT.md = Documentation\ABOUT.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{60DA823E-1ABA-40AE-B870-BCF36778EF46}"
+	ProjectSection(SolutionItems) = preProject
+		protocol.xml = protocol.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{493119A6-7A56-4380-83BF-CFFDBF22CF14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Analysis", "Code Analysis", "{61F0E5EC-DC1D-47D4-83DD-1AE71F716401}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\Code Analysis\qaction-debug.ruleset = Internal\Code Analysis\qaction-debug.ruleset
+		Internal\Code Analysis\qaction-release.ruleset = Internal\Code Analysis\qaction-release.ruleset
+		Internal\Code Analysis\stylecop.json = Internal\Code Analysis\stylecop.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAction_Helper", "QAction_Helper\QAction_Helper.csproj", "{B93731B1-3260-40D1-ADB4-DC2301F00298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAction_1", "QAction_1\QAction_1.csproj", "{3D0AA906-532D-4467-922C-733EAEF463D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAction_2", "QAction_2\QAction_2.csproj", "{3103228F-031A-4BC6-9414-ED533543E0F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAction_66", "QAction_66\QAction_66.csproj", "{14507E2C-F450-466C-E691-B1FE7A1D00FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAction_1052", "QAction_1052\QAction_1052.csproj", "{DC1C5D19-D3D2-3489-8A03-7063FA803817}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B93731B1-3260-40D1-ADB4-DC2301F00298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93731B1-3260-40D1-ADB4-DC2301F00298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93731B1-3260-40D1-ADB4-DC2301F00298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93731B1-3260-40D1-ADB4-DC2301F00298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0AA906-532D-4467-922C-733EAEF463D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0AA906-532D-4467-922C-733EAEF463D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0AA906-532D-4467-922C-733EAEF463D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0AA906-532D-4467-922C-733EAEF463D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3103228F-031A-4BC6-9414-ED533543E0F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3103228F-031A-4BC6-9414-ED533543E0F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3103228F-031A-4BC6-9414-ED533543E0F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3103228F-031A-4BC6-9414-ED533543E0F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14507E2C-F450-466C-E691-B1FE7A1D00FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14507E2C-F450-466C-E691-B1FE7A1D00FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14507E2C-F450-466C-E691-B1FE7A1D00FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14507E2C-F450-466C-E691-B1FE7A1D00FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC1C5D19-D3D2-3489-8A03-7063FA803817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC1C5D19-D3D2-3489-8A03-7063FA803817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC1C5D19-D3D2-3489-8A03-7063FA803817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC1C5D19-D3D2-3489-8A03-7063FA803817}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61F0E5EC-DC1D-47D4-83DD-1AE71F716401} = {9734C6D3-A09F-4B5D-A866-7074E6695218}
+		{B93731B1-3260-40D1-ADB4-DC2301F00298} = {9734C6D3-A09F-4B5D-A866-7074E6695218}
+		{3D0AA906-532D-4467-922C-733EAEF463D7} = {A811D624-63FF-4E61-A9EB-20076A70D83D}
+		{3103228F-031A-4BC6-9414-ED533543E0F3} = {A811D624-63FF-4E61-A9EB-20076A70D83D}
+		{14507E2C-F450-466C-E691-B1FE7A1D00FB} = {A811D624-63FF-4E61-A9EB-20076A70D83D}
+		{DC1C5D19-D3D2-3489-8A03-7063FA803817} = {A811D624-63FF-4E61-A9EB-20076A70D83D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC96FB03-C58E-4526-8257-E914EDFD4C23}
+	EndGlobalSection
+EndGlobal
