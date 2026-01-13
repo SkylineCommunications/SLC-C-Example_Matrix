@@ -12,6 +12,7 @@ public class QAction
 		int trigger = protocol.GetTriggerParameter();
 		string key = protocol.RowKey();
 		string setValue = Convert.ToString(protocol.GetParameter(trigger));
-		protocol.SetParameter(Parameter.Write.routercontroloutputsserializedsets_1161, Convert.ToString(trigger) + ";" + key + ";" + setValue);
+
+		protocol.SetParameter(Parameter.Write.routercontroloutputsserializedsets_1161, $"{trigger};{key};{setValue}");
 	}
 }
