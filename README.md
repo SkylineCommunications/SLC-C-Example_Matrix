@@ -2,6 +2,13 @@
 
 This repository serves as a guide on developing a Matrix Connector.
 
+## Parallel approaches
+
+This repository intentionally contains two long-lived branches:
+
+- 1.x.y.z: the old school matrix approach
+- 2.x.y.x: the new fully based on tables approach
+
 ## Simulation Data
 
 The input data is sourced from a simulation located in the **Simulation** folder at the root of this repository.
