@@ -8,7 +8,7 @@
 <Protocol xmlns="http://www.skyline.be/protocol">
 	<Name>Skyline Example Matrix</Name>
 	<Description>Skyline Example Matrix DataMiner connector</Description>
-	<Version>1.0.0.1</Version>
+	<Version>2.0.0.2</Version>
 	<IntegrationID>DMS-DRV-9031</IntegrationID>
 	<Provider>Skyline Communications</Provider>
 	<Vendor>Skyline Example</Vendor>
